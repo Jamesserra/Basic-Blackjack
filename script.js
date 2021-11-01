@@ -5,7 +5,14 @@ let deck = new Array();
 function createDeck() {
     for(let i = 0; i < suits.length; i++) {
         for(let j = 0; j < values.length; j++) {
-            let card = {Value: values[j], Suit: suits[i]};
+            let weight = parseInt(values[j]);
+            if(values[j] == 'J' || values[j] == 'Q' || values[j] == 'K') {
+              weight = 10;
+            }
+            if(values[j] == 'A') {
+              weight = 11;
+            }
+            let card = {Value: values[j], Suit: suits[i], Weight: weight};
             deck.push(card);
         }
     }
