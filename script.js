@@ -85,6 +85,7 @@ function nextMove() {
       updateHand();
     } else {
       alert("Your score is " + points + ", not quite blackjack");
+      playAgain();
     }
 }
 
