@@ -1,6 +1,26 @@
-let suits = ['spades','diamonds','clubs','hearts'];
-let values = ['A', '2', '3','4','5','6','7','8','9','10','J','Q','K'];
-let deck = new Array();
+let suits = ['Spades','Diamonds','Clubs','Hearts'];
+let values = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+
+let playerHand = [],
+    points = 0,
+    deck = [];
+
+function startGame() {
+    createDeck();
+    shuffleDeck(deck);
+    dealHand();
+    hand();
+    updateHand()
+}
+
+function updateHand() {
+  alert("Your cards are.. ")
+  for(let i = 0; i < playerHand.length; i++) {
+    alert(playerHand[i].Value + " of " + playerHand[i].Suit);
+  }
+  alert("Giving you a score of " + points)
+  checkScore();
+}
 
 function createDeck() {
     for(let i = 0; i < suits.length; i++) {
@@ -27,19 +47,62 @@ function shuffleDeck(deck) {
     }
 }
 
-function startGame() {
-    createDeck();
-    shuffleDeck(deck);
-    dealHand();
+function hand() {
+  points = 0;
+  for(let i = 0; i < playerHand.length; i++) {
+    points += playerHand[i].Weight;
+  }
 }
 
 function dealHand() {
-    for (let i = 0; i < 2; i++) {
-        let cards = deck.pop();
-        console.log(cards)
-        //updatePoints();
+    for (let i = 0; i < 2; i++) { 
+        playerHand.push(getCard());  
     }
-  //updateDeck()?
 }
+
+function getCard() {
+   let card = deck.pop();  
+   return card;
+}
+
+function checkScore() {
+  if (points>21) {
+      alert("Bust!");
+      playAgain();
+  } else if (points == 21) {
+      alert("You Win!")
+      playAgain();
+  } else {
+      nextMove();
+  }
+}
+
+function nextMove() {
+  let r = confirm("Would you like to hit or stay?");
+    if (r == true) {
+      playerHand.push(getCard());  
+      hand();
+      updateHand();
+    } else {
+      alert("Your score is " + points + ", not quite blackjack");
+    }
+}
+
+function hitMe() {
+  let newCard = getCard();  
+  playerHand.push(newCard);
+}
+
+function playAgain() {
+    let r = confirm("Play Again?");
+    if (r == true) {
+       deck = [];
+       playerHand = [];
+       points = 0;
+      startGame();
+    } else {
+      return;
+    }
+  }
 
 startGame();
